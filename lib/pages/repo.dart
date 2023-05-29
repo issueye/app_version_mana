@@ -56,10 +56,10 @@ class _RepoState extends State<Repo> {
   Widget _queryForm() {
     return Row(
       children: [
-        const SizedBox(width: 50),
+        SizedBox(width: 20),
         Expanded(
           child: Container(
-            width: 300,
+            width: 200,
             child: const TextBox(placeholder: '请输入检索内容'),
           ),
         ),
@@ -68,6 +68,7 @@ class _RepoState extends State<Repo> {
           child: const Text('查询'),
           onPressed: () {},
         ),
+        const Spacer(),
       ],
     );
   }
