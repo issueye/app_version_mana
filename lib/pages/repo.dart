@@ -1,3 +1,4 @@
+import 'package:app_version_mana/components/pagination.dart';
 import 'package:app_version_mana/components/table.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 
@@ -254,6 +255,7 @@ class _RepoState extends State<Repo> {
             const SizedBox(height: 40),
             _tableHeader(),
             _table(),
+            const Pagination(),
           ],
         ),
       ),
