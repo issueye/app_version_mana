@@ -75,36 +75,147 @@ class _RepoState extends State<Repo> {
 
   final List _tableData = [
     {
-      "id": "0000000000001",
+      "id": "0001",
       "name": "测试数据001",
-      "path": "https://github.com/issueye/lichee.git"
+      "path": "https://github.com/issueye/lichee.git",
+      "branch": [
+        {
+          "isHead": true,
+          "name": "master",
+        },
+        {
+          "isHead": false,
+          "name": "main",
+        },
+        {
+          "isHead": false,
+          "name": "V2.1.DEV.20230601.BETA",
+        }
+      ]
     },
     {
-      "id": "0000000000002",
+      "id": "0002",
       "name": "测试数据002",
-      "path": "https://github.com/issueye/lichee.git"
+      "path": "https://github.com/issueye/lichee.git",
+      "branch": [
+        {
+          "isHead": false,
+          "name": "master",
+        },
+        {
+          "isHead": false,
+          "name": "main",
+        },
+        {
+          "isHead": true,
+          "name": "V2.1.DEV.20230601.BETA",
+        }
+      ]
     },
     {
-      "id": "0000000000003",
+      "id": "0003",
       "name": "测试数据003",
-      "path": "https://github.com/issueye/lichee.git"
+      "path": "https://github.com/issueye/lichee.git",
+      "branch": [
+        {
+          "isHead": false,
+          "name": "master",
+        },
+        {
+          "isHead": false,
+          "name": "main",
+        },
+        {
+          "isHead": true,
+          "name": "V2.1.DEV.20230601.BETA",
+        }
+      ]
     },
     {
-      "id": "0000000000004",
+      "id": "0004",
       "name": "测试数据004",
-      "path": "https://github.com/issueye/lichee.git"
+      "path": "https://github.com/issueye/lichee.git",
+      "branch": [
+        {
+          "isHead": false,
+          "name": "master",
+        },
+        {
+          "isHead": true,
+          "name": "main",
+        },
+        {
+          "isHead": false,
+          "name": "V2.1.DEV.20230601.BETA",
+        }
+      ]
     },
     {
-      "id": "0000000000005",
+      "id": "0005",
       "name": "测试数据005",
-      "path": "https://github.com/issueye/lichee.git"
+      "path": "https://github.com/issueye/lichee.git",
+      "branch": [
+        {
+          "isHead": false,
+          "name": "master",
+        },
+        {
+          "isHead": false,
+          "name": "main",
+        },
+        {
+          "isHead": true,
+          "name": "V2.1.DEV.20230601.BETA",
+        }
+      ]
     },
     {
-      "id": "0000000000006",
+      "id": "0006",
       "name": "测试数据006",
-      "path": "https://github.com/issueye/lichee.git"
+      "path": "https://github.com/issueye/lichee.git",
+      "branch": [
+        {
+          "isHead": false,
+          "name": "master",
+        },
+        {
+          "isHead": false,
+          "name": "main",
+        },
+        {
+          "isHead": true,
+          "name": "V2.1.DEV.20230601.BETA",
+        }
+      ]
     },
   ];
+
+  Widget _branchCombox(int flex, List<Map<String, Object>> data) {
+    String? selectValue;
+
+    for (var element in data) {
+      if (element["isHead"].toString() == "true") {
+        selectValue = element["name"].toString();
+      }
+    }
+
+    return Expanded(
+      flex: flex,
+      child: ComboBox<String>(
+        isExpanded: true,
+        value: selectValue,
+        items: data.map((e){
+          return ComboBoxItem(
+            child: Text(e["name"].toString()), 
+            value: e["name"].toString(),
+          );
+        }).toList(),
+        onChanged: (value) {
+          setState(() => selectValue = value);
+        },
+      ),
+    );
+  }
 
   // 表格
   Widget _table() {
@@ -127,16 +238,18 @@ class _RepoState extends State<Repo> {
                 onPressed: () {},
                 builder: (ctx, state) {
                   return Container(
-                    height: 40,
+                    // height: 40,
                     // ignore: sort_child_properties_last
                     child: Row(
                       children: [
                         // id
-                        DataColumn(flex: 5, data: _tableData[index]["id"]),
+                        DataColumn(flex: 2, data: _tableData[index]["id"]),
                         // name
-                        DataColumn(flex: 4, data: _tableData[index]["name"]),
+                        DataColumn(flex: 3, data: _tableData[index]["name"]),
                         // path
-                        DataColumn(flex: 10, data: _tableData[index]["path"]),
+                        DataColumn(flex: 7, data: _tableData[index]["path"]),
+                        // 分支
+                        _branchCombox(6, _tableData[index]["branch"]),
                         // 操作列
                         const LOperationColumn(flex: 5, isCenter: true),
                       ],
@@ -173,24 +286,31 @@ class _RepoState extends State<Repo> {
       child: Row(
         children: [
           Expanded(
-            flex: 5,
+            flex: 2,
             child: Container(
               padding: const EdgeInsets.only(left: 10, right: 10),
               child: const Text("ID"),
             ),
           ),
           Expanded(
-            flex: 4,
+            flex: 3,
             child: Container(
               padding: const EdgeInsets.only(left: 10, right: 10),
               child: const Text("名称"),
             ),
           ),
           Expanded(
-            flex: 10,
+            flex: 7,
             child: Container(
               padding: const EdgeInsets.only(left: 10, right: 10),
               child: const Text("仓库路径"),
+            ),
+          ),
+          Expanded(
+            flex: 6,
+            child: Container(
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              child: const Text("分支"),
             ),
           ),
           Expanded(
