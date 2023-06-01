@@ -1,5 +1,3 @@
-import 'package:app_version_mana/components/pagination.dart';
-import 'package:app_version_mana/components/table.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 
 class Repo extends StatefulWidget {
@@ -53,215 +51,150 @@ class _RepoState extends State<Repo> {
     );
   }
 
-  // 查询表单
-  Widget _queryForm() {
-    return Row(
-      children: [
-        SizedBox(width: 20),
-        Expanded(
-          child: Container(
-            width: 200,
-            child: const TextBox(placeholder: '请输入检索内容'),
-          ),
-        ),
-        const SizedBox(width: 20),
-        FilledButton(
-          child: const Text('查询'),
-          onPressed: () {},
-        ),
-        const Spacer(),
-      ],
-    );
-  }
-
-  final List _tableData = [
+  List _tableData = [
     {
-      "id": "0001",
+      "id": "1",
       "name": "测试数据001",
       "path": "https://github.com/issueye/lichee.git",
-      "branch": [
-        {
-          "isHead": true,
-          "name": "master",
-        },
-        {
-          "isHead": false,
-          "name": "main",
-        },
-        {
-          "isHead": false,
-          "name": "V2.1.DEV.20230601.BETA",
-        }
-      ]
+      "branch": "V2.1.DEV.20230601.BETA",
+      "branchList": ["local/main", "remote/mater", "V2.1.DEV.20230601.BETA"]
     },
     {
-      "id": "0002",
+      "id": "2",
       "name": "测试数据002",
       "path": "https://github.com/issueye/lichee.git",
-      "branch": [
-        {
-          "isHead": false,
-          "name": "master",
-        },
-        {
-          "isHead": false,
-          "name": "main",
-        },
-        {
-          "isHead": true,
-          "name": "V2.1.DEV.20230601.BETA",
-        }
-      ]
+      "branch": "V2.1.DEV.20230601.BETA",
+      "branchList": ["local/main", "remote/mater", "V2.1.DEV.20230601.BETA"]
     },
     {
-      "id": "0003",
+      "id": "3",
       "name": "测试数据003",
       "path": "https://github.com/issueye/lichee.git",
-      "branch": [
-        {
-          "isHead": false,
-          "name": "master",
-        },
-        {
-          "isHead": false,
-          "name": "main",
-        },
-        {
-          "isHead": true,
-          "name": "V2.1.DEV.20230601.BETA",
-        }
-      ]
+      "branch": "V2.1.DEV.20230601.BETA",
+      "branchList": ["local/main", "remote/mater", "V2.1.DEV.20230601.BETA"]
     },
     {
-      "id": "0004",
+      "id": "4",
       "name": "测试数据004",
       "path": "https://github.com/issueye/lichee.git",
-      "branch": [
-        {
-          "isHead": false,
-          "name": "master",
-        },
-        {
-          "isHead": true,
-          "name": "main",
-        },
-        {
-          "isHead": false,
-          "name": "V2.1.DEV.20230601.BETA",
-        }
-      ]
-    },
-    {
-      "id": "0005",
-      "name": "测试数据005",
-      "path": "https://github.com/issueye/lichee.git",
-      "branch": [
-        {
-          "isHead": false,
-          "name": "master",
-        },
-        {
-          "isHead": false,
-          "name": "main",
-        },
-        {
-          "isHead": true,
-          "name": "V2.1.DEV.20230601.BETA",
-        }
-      ]
-    },
-    {
-      "id": "0006",
-      "name": "测试数据006",
-      "path": "https://github.com/issueye/lichee.git",
-      "branch": [
-        {
-          "isHead": false,
-          "name": "master",
-        },
-        {
-          "isHead": false,
-          "name": "main",
-        },
-        {
-          "isHead": true,
-          "name": "V2.1.DEV.20230601.BETA",
-        }
-      ]
-    },
+      "branch": "V2.1.DEV.20230601.BETA",
+      "branchList": ["local/main", "remote/mater", "V2.1.DEV.20230601.BETA"]
+    }
   ];
 
-  Widget _branchCombox(int flex, List<Map<String, Object>> data) {
-    String? selectValue;
-
-    for (var element in data) {
-      if (element["isHead"].toString() == "true") {
-        selectValue = element["name"].toString();
-      }
-    }
-
-    return Expanded(
-      flex: flex,
-      child: ComboBox<String>(
-        isExpanded: true,
-        value: selectValue,
-        items: data.map((e){
-          return ComboBoxItem(
-            child: Text(e["name"].toString()), 
-            value: e["name"].toString(),
-          );
-        }).toList(),
-        onChanged: (value) {
-          setState(() => selectValue = value);
-        },
-      ),
+  Widget _checkBox(bool? isSelectd) {
+    return Checkbox(
+      checked: isSelectd,
+      onChanged: (value) {
+        setState(() {
+          isSelectd = value;
+          debugPrint("isSelectd = $isSelectd");
+        });
+      },
     );
   }
 
   // 表格
   Widget _table() {
+    bool isSelectd = false;
+    int count = 0;
     return Expanded(
       flex: 10,
       child: Container(
         padding: const EdgeInsets.only(right: 20, left: 20),
+        margin: const EdgeInsets.only(bottom: 20),
         child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: const Color(0xffe5e5e5),
-              width: 1.0,
-              style: BorderStyle.solid,
-            ),
-          ),
           child: ListView.builder(
             itemCount: _tableData.length,
             itemBuilder: (ctx, index) {
+              
               return HoverButton(
-                onPressed: () {},
+                onPressed: () {
+                  isSelectd = !isSelectd;
+                    count++;
+                    debugPrint('onPressed = $isSelectd count = $count');
+                  setState(() {});
+                },
                 builder: (ctx, state) {
+                  List<String> branchList = _tableData[index]["branchList"];
                   return Container(
-                    // height: 40,
                     // ignore: sort_child_properties_last
-                    child: Row(
+                    child: Column(
                       children: [
-                        // id
-                        DataColumn(flex: 2, data: _tableData[index]["id"]),
-                        // name
-                        DataColumn(flex: 3, data: _tableData[index]["name"]),
-                        // path
-                        DataColumn(flex: 7, data: _tableData[index]["path"]),
-                        // 分支
-                        _branchCombox(6, _tableData[index]["branch"]),
-                        // 操作列
-                        const LOperationColumn(flex: 5, isCenter: true),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: _checkBox(isSelectd),
+                            ),
+                            const SizedBox(width: 30),
+                            SizedBox(
+                              width: 40,
+                              height: 40,
+                              child: Image.asset("images/git.png"),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                                flex: 10,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 3,
+                                          child: Container(
+                                            child: Text(
+                                              '${_tableData[index]["name"]}',
+                                              style: const TextStyle(
+                                                fontSize: 25,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                        Text(_tableData[index]["branch"]),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text('仓库地址：${_tableData[index]["path"]}'),
+                                    const SizedBox(height: 10),
+                                    Container(
+                                      child: Row(
+                                        children: branchList.map((e) {
+                                          return Container(
+                                            margin: const EdgeInsets.only(
+                                                right: 10),
+                                            padding: const EdgeInsets.all(3),
+                                            child: Text(
+                                              e,
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 10,
+                                              ),
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: Colors.green,
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(5)),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                            const Spacer(),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        const Divider(),
                       ],
                     ),
                     decoration: BoxDecoration(
-                      border: const Border(
-                        bottom: BorderSide(
-                          width: 1,
-                          color: Color(0xffe5e5e5),
-                        ),
-                      ),
                       color: state.isHovering
                           ? const Color.fromARGB(255, 241, 239, 239)
                           : Colors.white,
@@ -276,76 +209,48 @@ class _RepoState extends State<Repo> {
     );
   }
 
-  // 表格头部header
-  Widget _tableHeader() {
-    return Container(
-      height: 40,
-      margin: const EdgeInsets.only(right: 20, left: 20),
-      decoration: const BoxDecoration(
-        color: Color(0xffe5e5e5),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Container(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: const Text("ID"),
-            ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Container(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: const Text("名称"),
-            ),
-          ),
-          Expanded(
-            flex: 7,
-            child: Container(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: const Text("仓库路径"),
-            ),
-          ),
-          Expanded(
-            flex: 6,
-            child: Container(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: const Text("分支"),
-            ),
-          ),
-          Expanded(
-            flex: 5,
-            child: Container(
-              width: 150,
-              alignment: Alignment.center,
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: const Text("操作"),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   // 弹窗
   void showContentDialog(BuildContext ctx) async {
+    TextEditingController? nameCtl = TextEditingController();
+    TextEditingController? urlCtl = TextEditingController();
+
     final result = await showDialog<String>(
       context: context,
       builder: (context) {
         return ContentDialog(
           title: const Text("添加仓库"),
-          content: const Text("测试数据"),
+          content: Container(
+            height: 110,
+            child: Column(
+              children: [
+                InfoLabel(
+                  label: "仓库名称",
+                  child: TextBox(controller: nameCtl),
+                ),
+                InfoLabel(
+                  label: "仓库地址",
+                  child: TextBox(controller: urlCtl),
+                )
+              ],
+            ),
+          ),
           actions: [
-            Button(
-              child: const Text('Delete'),
+            FilledButton(
+              child: const Text('确定'),
               onPressed: () {
+                debugPrint('name = ${nameCtl.text}  url = ${urlCtl.text}');
+                _tableData.add({
+                  "id": "",
+                  "name": nameCtl.text,
+                  "path": urlCtl.text,
+                  "branch": "master",
+                  "branchList": ["local/master"],
+                });
                 Navigator.pop(context, 'User deleted file');
-                // Delete file here
               },
             ),
-            FilledButton(
-              child: const Text('Cancel'),
+            Button(
+              child: const Text('退出'),
               onPressed: () => Navigator.pop(context, 'User canceled dialog'),
             ),
           ],
@@ -370,12 +275,10 @@ class _RepoState extends State<Repo> {
             _header(context),
             // 分割线
             _Divider(),
+            // _queryForm(),
             const SizedBox(height: 40),
-            _queryForm(),
-            const SizedBox(height: 40),
-            _tableHeader(),
+            // _tableHeader(),
             _table(),
-            const Pagination(),
           ],
         ),
       ),
